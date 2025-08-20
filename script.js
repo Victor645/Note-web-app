@@ -1,3 +1,35 @@
+// Modal logic for delete confirmation
+let noteIdToDelete = null;
+
+function openDeleteModal(id) {
+  noteIdToDelete = id;
+  document.getElementById('deleteModal').classList.remove('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ...existing code...
+
+  // Delete modal buttons
+  const cancelDeleteBtn = document.getElementById('cancelDelete');
+  const confirmDeleteBtn = document.getElementById('confirmDelete');
+  const deleteModal = document.getElementById('deleteModal');
+
+  if (cancelDeleteBtn) {
+    cancelDeleteBtn.addEventListener('click', () => {
+      deleteModal.classList.add('hidden');
+      noteIdToDelete = null;
+    });
+  }
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener('click', () => {
+      if (noteIdToDelete !== null) {
+        removeNoteItem(noteIdToDelete);
+        deleteModal.classList.add('hidden');
+        noteIdToDelete = null;
+      }
+    });
+  }
+});
 const noteData = [
   {
     id: 1,
@@ -50,7 +82,7 @@ function renderNotes(notes) {
             <p class="text-xs text-gray-500 italic mb-2">${note.category || "No Category"}</p>
             <div class="absolute bottom-3 right-3 flex gap-3">
               <button onclick="editNotes(${note.id})" class="text-blue-600 hover:underline text-xs">Edit</button>
-              <button onclick="removeNoteItem(${note.id})" class="text-red-600 hover:underline text-xs">Delete</button>
+              <button onclick="openDeleteModal(${note.id})" class="text-red-600 hover:underline text-xs">Delete</button>
             </div>
           </div>
         `;
@@ -59,8 +91,7 @@ function renderNotes(notes) {
   }
 }
 
-function filterNotesByCategory() {
-  const category = document.getElementById('categoryFilter').value;
+function filterNotesByCategory(category) {
   if (!category) {
     renderNotes(noteData);
   } else {
@@ -68,6 +99,7 @@ function filterNotesByCategory() {
     renderNotes(filtered);
   }
 }
+
 
 
 
@@ -142,6 +174,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+let noteToDelete = null;
+
+// Your existing delete function (unchanged)
 function removeNoteItem(id) {
   const index = noteData.findIndex(note => note.id === id);
   if (index !== -1) {
@@ -151,17 +186,39 @@ function removeNoteItem(id) {
   }
 }
 
+// Show modal before deletion
+function openDeleteModal(id) {
+let noteToDelete = null;
 
-function editNotes(id) {
-  const note = noteData.find(n => n.id === id);
-  if (!note) return;
+function openDeleteModal(id) {
+  noteToDelete = id;
+  document.getElementById("deleteModal").classList.remove("hidden");
+}
 
-  // Fill your form with the note’s existing values
-  document.getElementById('noteTitle').value = note.title;
-  document.getElementById('noteContent').value = note.content;
-  document.querySelector('#note-category').value = note.category;
+document.addEventListener('DOMContentLoaded', () => {
+  // ...existing code...
 
-  // Store the ID so we know we’re editing, not adding
+  // Delete modal buttons
+  const cancelDeleteBtn = document.getElementById("cancelDelete");
+  const confirmDeleteBtn = document.getElementById("confirmDelete");
+  const deleteModal = document.getElementById("deleteModal");
+
+  if (cancelDeleteBtn) {
+    cancelDeleteBtn.addEventListener("click", () => {
+      noteToDelete = null;
+      deleteModal.classList.add("hidden");
+    });
+  }
+  if (confirmDeleteBtn) {
+    confirmDeleteBtn.addEventListener("click", () => {
+      if (noteToDelete !== null) {
+        removeNoteItem(noteToDelete);
+      }
+      deleteModal.classList.add("hidden");
+      noteToDelete = null;
+    });
+  }
+});
   noteForm.dataset.editingId = id;
 
   // Scroll to the form for convenience
