@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="flex flex-col justify-center items-center h-screen w-full">
+      <div class="text-center mb-10">
+        <h2 class="text-[48px] font-bold text-black">Welcome Back</h2>
+        <p class="text-gray-500 text-[18px]">Log in to access your account</p>
+      </div>
+
+      <!-- Login Form -->
+      <form
+        id="login_form"
+        class="bg-white shadow-lg w-full max-w-md rounded-lg p-6"
+      >
+        <!-- Email -->
+        <div class="flex flex-col mb-4 gap-2">
+          <label for="login_email" class="font-medium">Email</label>
+          <input
+            type="email"
+            id="login_email"
+            placeholder="Email"
+            required
+            class="border border-gray-400 outline-none focus:ring-1 focus:ring-blue-500 px-3 py-2 rounded-md"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="flex flex-col mb-4 gap-2 relative">
+          <label for="login_password" class="font-medium">Password</label>
+          <input
+            type="password"
+            id="login_password"
+            placeholder="Password"
+            required
+            class="border border-gray-400 outline-none focus:ring-1 focus:ring-blue-500 px-3 py-2 rounded-md"
+          />
+          <button
+            type="button"
+            onclick="togglePassword(this)"
+            class="absolute right-3 top-9 text-sm text-blue-600 font-medium hover:underline focus:outline-none"
+            data-target="login_password"
+          >
+            Show
+          </button>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="bg-blue-700 w-full py-2 px-6 text-white rounded-lg mt-6 font-semibold"
+        >
+          Login
+        </button>
+
+        <p class="text-gray-500 text-center mt-8">
+          Don't have an account?
+          <a
+            href="signup.html"
+            class="text-blue-700 font-medium underline cursor-pointer"
+            >Sign Up</a
+          >
+        </p>
+      </form>
+    </div>
+
+    <!-- Inline JavaScript -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginForm = document.getElementById("login_form");
+
+        loginForm.addEventListener("submit", function (e) {
+          e.preventDefault(); // Stop page reload
+
+          const email = document.getElementById("login_email").value.trim();
+          const password = document.getElementById("login_password").value;
+
+          if (!email || !password) {
+            alert("Please enter both email and password.");
+            return;
+          }
+
+          // Get saved user data from localStorage
+          const user = JSON.parse(localStorage.getItem("user"));
+
+          if (user && user.email === email && user.password === password) {
+            alert(`Welcome back, ${user.fullName}!`);
+            window.location.href = "index.html"; // Redirect to home page
+          } else {
+            alert("Invalid email or password.");
+          }
+        });
+
+        // Password toggle logic
+        window.togglePassword = function (btn) {
+          const targetId = btn.getAttribute("data-target");
+          const input = document.getElementById(targetId);
+
+          if (input.type === "password") {
+            input.type = "text";
+            btn.textContent = "Hide";
+          } else {
+            input.type = "password";
+            btn.textContent = "Show";
+          }
+        };
+      });
+    </script>
+  </body>
+</html>

@@ -39,17 +39,22 @@ function renderNotes(notes) {
       .map((note) => {
         const colorClass = categoryColors[note.category] || categoryColors.default;
         return `
-          <div class="${colorClass} flex-shrink-0 rounded-lg shadow relative w-[180px] h-[150px] p-4">
-            <button onclick="togglePin(${note.id})" title="${note.isPinned ? 'Unpin' : 'Pin'}"
-              class="absolute top-2 left-2 text-yellow-500 text-xl hover:scale-110 transition-transform">
-              ${note.isPinned ? '📌' : '📍'}
-            </button>
-            <h3 class="font-bold text-lg mb-1 text-center truncate">${note.title}</h3>
-            <p class="text-sm text-gray-700 mb-2 overflow-hidden line-clamp-3">${note.content}</p>
-            <p class="text-xs text-gray-500 italic mb-2">${note.category || 'No Category'}</p>
-            <div class="absolute bottom-3 right-3 flex gap-3">
-              <button onclick="editNote(${note.id})" class="text-blue-600 hover:underline text-xs">Edit</button>
-              <button onclick="showDeleteModal(${note.id})" class="text-red-600 hover:underline text-xs">Delete</button>
+          <div class="${colorClass} flex-shrink-0 rounded-lg shadow relative w-[180px] h-[180px] p-4 flex flex-col justify-between">
+            <div>
+              <button onclick="togglePin(${note.id})" title="${note.isPinned ? 'Unpin' : 'Pin'}"
+                class="absolute top-2 left-2 hover:scale-110 transition-transform">
+                <img src="assets/${note.isPinned ? 'pin-filled.svg' : 'pin-outline.svg'}" alt="Pin" class="w-6 h-6" />
+              </button>
+              <h3 class="font-bold text-lg mb-1 text-center truncate">${note.title}</h3>
+              <p class="text-sm text-gray-700 mb-2 overflow-hidden line-clamp-3">${note.content}</p>
+              <p class="text-xs text-gray-500 italic mb-2">${note.category || 'No Category'}</p>
+            </div>
+            <div>
+              <p class="text-xs text-gray-400 mb-2">${note.createdAt ? note.createdAt : ''}</p>
+              <div class="flex justify-end gap-3">
+                <button onclick="editNote(${note.id})" class="text-blue-600 hover:underline text-xs">Edit</button>
+                <button onclick="showDeleteModal(${note.id})" class="text-red-600 hover:underline text-xs">Delete</button>
+              </div>
             </div>
           </div>
         `;
@@ -58,16 +63,54 @@ function renderNotes(notes) {
   }
 }
 
+let editingNoteId = null;
+
+function editNote(id) {
+  const note = noteData.find(n => n.id === id);
+  if (note) {
+    document.getElementById('noteTitle').value = note.title;
+    document.getElementById('noteContent').value = note.content;
+    document.getElementById('note-category').value = note.category;
+    editingNoteId = id;
+    // Scroll to form and focus
+    const formSection = document.getElementById('note-form');
+    if (formSection) {
+      formSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.getElementById('noteTitle').focus();
+    }
+  }
+}
+
 function saveNote(e) {
   e.preventDefault();
-  const newNote = {
-    id: noteData.length + 1,
-    title: document.getElementById('noteTitle').value,
-    content: document.getElementById('noteContent').value,
-    category: document.querySelector('#note-category').value,
-    isPinned: false,
-  };
-  noteData.push(newNote);
+  const title = document.getElementById('noteTitle').value;
+  const content = document.getElementById('noteContent').value;
+  const category = document.querySelector('#note-category').value;
+  if (editingNoteId !== null) {
+    // Edit existing note
+    const note = noteData.find(n => n.id === editingNoteId);
+    if (note) {
+      note.title = title;
+      note.content = content;
+      note.category = category;
+      // Optionally update date
+      note.createdAt = note.createdAt || new Date().toLocaleString();
+    }
+    editingNoteId = null;
+  } else {
+    // Add new note
+    const now = new Date();
+    const formattedDate = now.toLocaleString();
+    const newNote = {
+      id: noteData.length + 1,
+      title,
+      content,
+      category,
+      isPinned: false,
+      createdAt: formattedDate,
+    };
+    noteData.push(newNote);
+  }
   renderNotes(noteData);
   localStorage.setItem('noteList', JSON.stringify(noteData));
   noteForm.reset();
@@ -92,7 +135,7 @@ function searchNotes() {
 }
 
 function filterNotesByCategory(category) {
-  if (!category) {
+  if (!category || category === 'All') {
     renderNotes(noteData);
   } else {
     const filtered = noteData.filter(note => note.category === category);
@@ -131,12 +174,6 @@ function togglePin(id) {
   }
 }
 
-// Edit logic (optional, stub)
-function editNote(id) {
-  // Implement edit logic here
-  alert('Edit feature coming soon!');
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   // Load notes from localStorage first
   const savedNote = localStorage.getItem('noteList');
@@ -160,5 +197,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('noteTitle').focus();
       }
     });
+  }
+
+
+  // Redirect to login if not authenticated
+  if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '/index.html') {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+      window.location.href = 'login.html';
+    }
   }
 });

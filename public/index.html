@@ -6,7 +6,7 @@
   <title>Note-Taking Web App</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-slate-300 font-sans">
 
   <!-- Header -->
   <section>
@@ -24,32 +24,33 @@
   </section>
 
   <!-- Main Content Area -->
-  <section class="flex flex-col lg:flex-row px-3 py-4 gap-4">
+  <section class="flex flex-col lg:flex-row px-3 py-4 gap-2">
     
     <!-- Sidebar -->
-    <div class="flex flex-row lg:flex-col items-center lg:items-start gap-4 px-3 w-full lg:w-1/5">
+    <div class="flex flex-row lg:flex-col items-center lg:items-start gap-4 px-3 w-24 lg:w-1/6">
       <button id="addNoteBtn" class="text-xs font-semibold bg-black rounded-md text-white w-24 h-8">Add new</button>
       <div id="categoryFilter" class="mt-2 w-24 text-l">
   <h1 class="font-bold text-lg mb-2">Categories</h1>
-  <a href="#" class="text-blue-700 hover:underline" onclick="filterNotesByCategory('Work')">Work</a><br>
+  <a href="#" class="text-blue-700 text-lg hover:underline" onclick="filterNotesByCategory('All')">All</a><br>
+  <a href="#" class="text-blue-700 text-lg hover:underline" onclick="filterNotesByCategory('Work')">Work</a><br>
   <a href="#" class="text-blue-700 hover:underline" onclick="filterNotesByCategory('Personal')">Personal</a><br>
   <a href="#" class="text-blue-700 hover:underline" onclick="filterNotesByCategory('Ideas')">Ideas</a>
 </div>
     </div>
 
     <!-- Notes Section -->
-    <div class="bg-gray-200 w-full lg:w-3/4 h-[500px] justify-center lg:h-screen px-6 py-6 overflow-y-auto rounded-md" id="notesContainer">
+    <div class="bg-white w-full lg:w-3/4 h-[500px] justify-center lg:h-screen px-6 py-6 overflow-y-auto rounded-md" id="notesContainer">
       <h1 class="font-bold text-2xl mb-4 text-center">Recent Notes</h1>
       <div id="notesInnerContainer" class="flex flex-wrap gap-5 justify-start"></div>
     </div>
 
     <!-- Add Note Form -->
-    <div class="bg-gray-200 w-full lg:w-2/5 h-auto lg:h-screen px-6 py-6 overflow-y-auto rounded-md">
+    <div class="bg-white lg:w-2/5 h-auto lg:h-screen px-6 py-6 overflow-y-auto rounded-md">
       <div class="flex flex-col gap-4 mt-4">
         <h1 class="font-bold text-2xl">Add a Note</h1>
         <form action="" id="note-form" class="space-y-4">
           <div class="flex flex-col sm:flex-row gap-3">
-            <select id="note-category" class="w-full sm:w-40 text-slate-600 bg-slate-100 border border-transparent hover:border-slate-200 rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+            <select id="note-category" class="w-full sm:w-40 text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
               <option value="">Category</option>
               <option value="Work">Work</option>
               <option value="Personal">Personal</option>
@@ -58,11 +59,11 @@
             <button type="submit" class="bg-blue-700 text-white rounded-lg px-5 py-2">Save Note</button>
           </div>
 
-          <input type="text" placeholder="Title" id="noteTitle" class="w-full text-slate-600 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+          <input type="text" placeholder="Title" id="noteTitle" class="w-full text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
 
           <div>
             <h1 class="p-2 font-bold text-lg">Contents</h1>
-            <textarea placeholder="Start writing..." id="noteContent" class="w-full h-52 resize-none text-slate-600 bg-slate-100 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"></textarea>
+            <textarea placeholder="Start writing..." id="noteContent" class="w-full h-52 resize-none text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"></textarea>
           </div>
         </form>
       </div>
@@ -71,7 +72,7 @@
   </section>
 
 <!-- Delete Confirmation Modal (must be outside main content for proper centering) -->
-<div id="deleteModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle" aria-describedby="deleteModalDesc">
+<div id="deleteModal" class="hidden fixed inset-0 bg-gray-500 bg-opacity-50 flex items-center justify-center z-50" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle" aria-describedby="deleteModalDesc">
   <div class="bg-white p-6 rounded-lg shadow-lg w-80 text-center">
     <h2 id="deleteModalTitle" class="text-lg font-bold mb-4">Delete Note</h2>
     <p id="deleteModalDesc" class="mb-4">Are you sure you want to delete this note? This action cannot be undone.</p>
