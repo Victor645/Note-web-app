@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignUp Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <div class="flex flex-col justify-center items-center h-screen w-full">
+      <div class="text-center mb-10">
+        <h2 class="text-[48px] font-bold text-black">Welcome</h2>
+        <p class="text-gray-500 text-[18px]">
+          Sign up or log in to access your account
+        </p>
+      </div>
+
+      <!-- Signup Form -->
+      <form
+        id="signup_form"
+        class="bg-white shadow-lg w-[30%] rounded-lg p-4 h-[600px]"
+      >
+        <div class="mb-4">
+          <h1 class="text-xl font-bold">Create an account</h1>
+          <p class="text-gray-400 mt-3">
+            Enter your information to create a new account
+          </p>
+        </div>
+
+        <!-- Full Name -->
+        <div class="flex flex-col mb-4 gap-3">
+          <label for="full_name" class="font-medium">Full Name</label>
+          <input
+            type="text"
+            placeholder="Full Name"
+            required
+            class="border border-gray-400 outline-none focus:ring-1 focus:ring-black px-3 py-2 rounded-md"
+            id="full_name"
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="flex flex-col mb-4 gap-3">
+          <label for="email" class="font-medium">Email</label>
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            class="border border-gray-400 outline-none focus:ring-1 focus:ring-black px-3 py-2 rounded-md"
+            id="email"
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="flex flex-col mb-4 gap-3 relative">
+          <label for="password" class="font-medium">Password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            class="border border-gray-400 outline-none focus:ring-1 focus:ring-black px-3 py-2 rounded-md"
+            id="password"
+          />
+          <!-- Toggle button -->
+          <button
+            type="button"
+            onclick="togglePassword(this)"
+            class="absolute right-3 top-[45px] text-sm text-blue-600 font-medium hover:underline focus:outline-none"
+            data-target="password"
+          >
+            Show
+          </button>
+        </div>
+
+        <!-- Submit -->
+        <button
+          type="submit"
+          class="bg-blue-700 w-full py-2 px-6 text-[18px] text-white rounded-lg mt-[3rem]"
+          id="signup_button"
+        >
+          Signup
+        </button>
+
+        <p class="text-gray-500 text-center mt-10">
+          Already have an account?
+          <a
+            href="login.html"
+            class="text-blue-700 font-medium underline cursor-pointer"
+            >Login</a
+          >
+        </p>
+      </form>
+    </div>
+
+    <script>
+
+      // Handle form submission
+      const signupForm = document.getElementById("signup_form");
+      signupForm.addEventListener("submit", function (e) {
+        e.preventDefault(); // stop reload
+        console.log("Form submission intercepted ✅");
+
+        const fullName = document.getElementById("full_name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        if (!fullName || !email || !password) {
+          alert("Please fill in all fields.");
+          return;
+        }
+
+        // Save user data (demo purpose)
+        const user = { fullName, email, password };
+        localStorage.setItem("user", JSON.stringify(user));
+
+        alert("Signup successful! You can now log in.");
+        window.location.href = "login.html";
+      });
+
+      // Password toggle logic
+      function togglePassword(btn) {
+        const targetId = btn.getAttribute("data-target");
+        const input = document.getElementById(targetId);
+
+        if (input.type === "password") {
+          input.type = "text";
+          btn.textContent = "Hide";
+        } else {
+          input.type = "password";
+          btn.textContent = "Show";
+        }
+      }
+    </script>
+  </body>
+</html>
