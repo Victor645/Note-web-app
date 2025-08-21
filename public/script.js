@@ -208,3 +208,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 });
+
+
+
+if (document.querySelector('#logoutBtn')) {
+  document.querySelector('#logoutBtn').addEventListener('click', () => {
+    sessionStorage.removeItem('loggedInUser');
+    window.location.href = 'login.html';
+  });
+}
+
+// if (document.querySelector('#logoutBtn')) {
+//   document.querySelector('#logoutBtn').addEventListener('click', logout);
+// }
+
+function logout() {
+  // Remove user authentication info
+  localStorage.removeItem('user');
+  sessionStorage.removeItem('loggedInUser');
+  window.location.href = 'login.html';
+}
