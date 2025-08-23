@@ -50,21 +50,19 @@
       <div class="flex flex-col gap-4 mt-4">
         <h1 class="font-bold text-2xl">Add a Note</h1>
         <form action="" id="note-form" class="space-y-4">
-          <div class="flex flex-col sm:flex-row gap-3">
+          <div class="flex flex-col gap-3">
             <select id="note-category" class="w-full sm:w-40 text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
               <option value="">Category</option>
               <option value="Work">Work</option>
               <option value="Personal">Personal</option>
               <option value="Ideas">Ideas</option>
             </select>
-            <button type="submit" class="bg-blue-700 text-white rounded-lg px-5 py-2">Save Note</button>
-          </div>
-
-          <input type="text" placeholder="Title" id="noteTitle" class="w-full text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
-
-          <div>
-            <h1 class="p-2 font-bold text-lg">Contents</h1>
-            <textarea placeholder="Start writing..." id="noteContent" class="w-full h-52 resize-none text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"></textarea>
+            <input type="text" placeholder="Title" id="noteTitle" class="w-full text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100">
+            <div>
+              <h1 class="p-2 font-bold text-lg">Contents</h1>
+              <textarea placeholder="Start writing..." id="noteContent" class="w-full h-52 resize-none text-slate-600 bg-slate-200 border border-transparent hover:border-slate-200 appearance-none rounded px-3.5 py-2.5 outline-none focus:bg-white focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100"></textarea>
+            </div>
+            <button type="submit" class="bg-blue-700 text-white rounded-lg px-5 py-2 w-full sm:w-auto">Save Note</button>
           </div>
         </form>
       </div>
